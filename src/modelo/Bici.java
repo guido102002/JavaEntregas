@@ -22,8 +22,13 @@ public class Bici extends Repartidor {
     }
 
     @Override
-    public boolean puedeLlevar(double km, boolean esGrande) {
-        return !esGrande && km <= DISTANCIA_MAXIMA_KM;
+    public boolean puedeLlevar(double km, boolean esGrande, boolean modoLluvia) {
+
+        if (modoLluvia) {
+            return false;
+        }
+
+        return km <= DISTANCIA_MAXIMA_KM && !esGrande;
     }
 
 }

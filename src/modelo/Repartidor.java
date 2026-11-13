@@ -65,13 +65,11 @@ public abstract class Repartidor implements Calificable {
         this.disponible = disponible;
     }
 
-
-
     public abstract double calcularCosto(double km);
 
     public abstract double calcularTiempo(double km);
 
-    public abstract boolean puedeLlevar(double km, boolean esGrande);
+    public abstract boolean puedeLlevar(double km, boolean esGrande, boolean modoLluvia);
 
     // Métodos
 
