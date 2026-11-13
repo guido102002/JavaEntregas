@@ -57,8 +57,7 @@ public class Cliente {
             throw new IllegalArgumentException("Oh-uh! El nombre no puede estar vacío. Por favor, verifique.");
         }
 
-        this.nombre = nombre;
-
+        this.nombre = nombre.trim();
     }
 
     public void setTelefono(String telefono) {
@@ -88,7 +87,7 @@ public class Cliente {
             throw new IllegalArgumentException("Oh-uh! El barrio no puede estar vacío. Por favor, verifique.");
         }
 
-        this.barrio = barrio;
+        this.barrio = barrio.trim();
     }
 
     public void setDireccion(String direccion) {
@@ -97,7 +96,7 @@ public class Cliente {
             throw new IllegalArgumentException("Oh-uh! La direccion no puede estar vacía. Por favor, verifique.");
         }
 
-        this.direccion = direccion;
+        this.direccion = direccion.trim();
     }
 
     // CONSTRUCTOR
