@@ -2,6 +2,7 @@ package app;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Scanner;
 
 import modelo.Bici;
@@ -101,7 +102,7 @@ public class Menu {
                         opcionCambiarModoLluvia();
                         break;
                     case 13:
-                        System.out.println("\n(Pendiente: se implementa en el nivel Operación real)");
+                        opcionCierreDelDia();
                         break;
                     case 0:
                         System.out.println("\nSaliendo del sistema... ¡Hasta pronto!");
@@ -189,7 +190,7 @@ public class Menu {
         String codigo = scanner.nextLine();
         System.out.print("Ingrese nombre: ");
         String nombre = scanner.nextLine();
-        System.out.print("Ingrese tipo (Bici, Moto, Carro, Dron): ");
+        System.out.print("Ingrese tipo (Bici, Moto, Carro): ");
         String tipo = scanner.nextLine();
 
         domiService.registrarRepartidor(codigo, nombre, tipo);
@@ -270,8 +271,10 @@ public class Menu {
         System.out.println("\n--- ENTREGAR PEDIDO ---");
         System.out.print("Ingrese el número del pedido: ");
         int numero = Integer.parseInt(scanner.nextLine().trim());
+        System.out.print("Califique la entrega (1 a 5): ");
+        int calificacion = Integer.parseInt(scanner.nextLine().trim());
 
-        Pedido pedido = domiService.entregarPedido(numero);
+        Pedido pedido = domiService.entregarPedido(numero, calificacion);
         System.out.println("Pedido #" + pedido.getNumero() + " entregado con éxito.");
     }
 
@@ -300,6 +303,54 @@ public class Menu {
                     + " | $" + formatearCosto(p.getCosto())
                     + " | " + formatearTiempo(p.getTiempo()) + " min"
                     + " | " + p.getEstado());
+        }
+    }
+
+    // -------------------------- CIERRE DEL DÍA --------------------------
+
+    private void opcionCierreDelDia() {
+
+        System.out.println("\n================ CIERRE DEL DÍA ================");
+
+        // 1. Total de pedidos y cantidad por estado
+        List<Pedido> todos = domiService.listarPedidos();
+        Map<String, Integer> porEstado = domiService.contarPedidosPorEstado();
+
+        System.out.println("Total de pedidos del día: " + todos.size());
+        System.out.println("  - EN_CAMINO : " + porEstado.getOrDefault(Pedido.EN_CAMINO, 0));
+        System.out.println("  - ENTREGADO : " + porEstado.getOrDefault(Pedido.ENTREGADO, 0));
+        System.out.println("  - CANCELADO : " + porEstado.getOrDefault(Pedido.CANCELADO, 0));
+
+        // 2. Ingresos totales (solo pedidos entregados)
+        double ingresosTotales = domiService.calcularIngresosTotales();
+
+        System.out.println("\nIngresos totales (ENTREGADOS): $" + formatearCosto(ingresosTotales));
+
+        System.out.println("\nIngresos por tipo de repartidor:");
+
+        Map<String, Double> porTipo = domiService.calcularIngresosPorTipo();
+
+        if (porTipo.isEmpty()) {
+            System.out.println("  (Sin ingresos registrados aún)");
+        } else {
+            for (Map.Entry<String, Double> entrada : porTipo.entrySet()) {
+                System.out.println(
+                        "  - " + entrada.getKey() + ": $" + formatearCosto(entrada.getValue()));
+            }
+        }
+
+        Repartidor estrella = domiService.obtenerRepartidorEstrella();
+
+        System.out.println("\n⭐ Repartidor estrella:");
+
+        if (estrella == null) {
+            System.out.println("  Aún no hay repartidores calificados en el turno.");
+        } else {
+            System.out.println(
+                    "  " + estrella.getCodigo()
+                            + " " + estrella.getNombre()
+                            + " (" + estrella.getTipo() + ") - Promedio: "
+                            + String.format(LOCALE, "%.1f", estrella.obtenerPromedio()));
         }
     }
 
