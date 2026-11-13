@@ -40,11 +40,17 @@ public class DomiService {
         barriosCobertura.add("Usaquén");
         distanciasBarrios.put("Usaquén", 6.0);
 
+        barriosCobertura.add("Usaquen");
+        distanciasBarrios.put("Usaquen", 6.0);
+
         barriosCobertura.add("Cedritos");
         distanciasBarrios.put("Cedritos", 8.0);
 
         barriosCobertura.add("Fontibón");
         distanciasBarrios.put("Fontibón", 11.0);
+
+        barriosCobertura.add("Fontibon");
+        distanciasBarrios.put("Fontibon", 11.0);
 
         barriosCobertura.add("Suba");
         distanciasBarrios.put("Suba", 12.0);
@@ -56,19 +62,19 @@ public class DomiService {
         distanciasBarrios.put("Bosa", 18.0);
     }
 
-    private void cargarRepartidores(){
+    private void cargarRepartidores() {
         repartidores.add(new Bici("R-01", "Camila Torres", true));
         repartidores.add(new Moto("R-02", "Andrés Mejía", true));
         repartidores.add(new Carro("R-03", "Jorge Pardo", true));
 
     }
 
-    private void cargarCliente(String cedula, String nombre, String telefono, String barrio, String direccion){
+    private void cargarCliente(String cedula, String nombre, String telefono, String barrio, String direccion) {
         Cliente cliente = new Cliente(cedula, nombre, telefono, barrio, direccion);
         clientes.put(cliente.getCedula(), cliente);
     }
 
-    //Metodos
+    // Metodos
     public void registrarCliente(String cedula, String nombre, String telefono, String barrio, String direccion) {
         Cliente cliente = new Cliente(cedula, nombre, telefono, barrio, direccion);
 
@@ -156,6 +162,3 @@ public class DomiService {
         throw new IllegalArgumentException("No existe un repartidor con el código " + codigo);
     }
 }
-
-
-
