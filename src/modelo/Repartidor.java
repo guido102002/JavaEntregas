@@ -33,7 +33,12 @@ public abstract class Repartidor implements Calificable {
     }
 
     public List<Integer> getCalificaciones() {
-        return List.copyOf(calificaciones); // UnsupportedOperationException
+        return List.copyOf(calificaciones);
+    }
+
+
+    public String getTipo() {
+        return getClass().getSimpleName();
     }
 
     // SETTERS
@@ -59,6 +64,14 @@ public abstract class Repartidor implements Calificable {
     public void setDisponible(boolean disponible) {
         this.disponible = disponible;
     }
+
+
+
+    public abstract double calcularCosto(double km);
+
+    public abstract double calcularTiempo(double km);
+
+    public abstract boolean puedeLlevar(double km, boolean esGrande);
 
     // Métodos
 

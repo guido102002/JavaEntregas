@@ -11,6 +11,8 @@ import servicio.DomiService;
 import servicio.DomiService.Cotizacion;
 
 public class Menu {
+    private static final Locale LOCALE = Locale.forLanguageTag("es-CO");
+
     private Scanner scanner = new Scanner(System.in);
     private DomiService domiService = new DomiService();
 
@@ -45,7 +47,7 @@ public class Menu {
             System.out.print("Elige una opción: ");
 
             try {
-                opcion = Integer.parseInt(scanner.nextLine());
+                opcion = Integer.parseInt(scanner.nextLine().trim());
                 switch (opcion) {
                     case 1:
                         opcionRegistrarCliente();
@@ -81,12 +83,11 @@ public class Menu {
                         opcionListarPedidos();
                         break;
                     case 12:
-                        // Activar / desactivar lluvia
+                        System.out.println("\n(Pendiente: se implementa en el nivel Operación real)");
                         break;
                     case 13:
-                        // Cierre del día
+                        System.out.println("\n(Pendiente: se implementa en el nivel Operación real)");
                         break;
-
                     case 0:
                         System.out.println("\nSaliendo del sistema... ¡Hasta pronto!");
                         break;
