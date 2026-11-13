@@ -59,7 +59,7 @@ public class DomiService {
     public boolean isModoLluvia() {
         return modoLluvia;
     }
-
+    
     private void cargarBarrios() {
         barriosCobertura.add("Chapinero");
         distanciasBarrios.put("Chapinero", 1.5);
