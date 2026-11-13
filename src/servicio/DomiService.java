@@ -6,6 +6,7 @@ import modelo.Pedido;
 import modelo.Bici;
 import modelo.Moto;
 import modelo.Carro;
+import modelo.Dron;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -59,7 +60,7 @@ public class DomiService {
     public boolean isModoLluvia() {
         return modoLluvia;
     }
-    
+
     private void cargarBarrios() {
         barriosCobertura.add("Chapinero");
         distanciasBarrios.put("Chapinero", 1.5);
@@ -196,6 +197,9 @@ public class DomiService {
                 break;
             case "carro":
                 nuevo = new Carro(codigoLimpio, nombre, true);
+                break;
+            case "dron":
+                nuevo = new Dron(codigoLimpio, nombre, true);
                 break;
             default:
                 throw new IllegalArgumentException("Tipo de repartidor no válido: " + tipo);
