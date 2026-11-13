@@ -1,13 +1,18 @@
 package app;
 
+import java.util.List;
+import java.util.Locale;
 import java.util.Scanner;
 
-import servicio.DomiService;
-import java.util.List;
 import modelo.Cliente;
+import modelo.Pedido;
 import modelo.Repartidor;
+import servicio.DomiService;
+import servicio.DomiService.Cotizacion;
 
 public class Menu {
+    private static final Locale LOCALE = Locale.forLanguageTag("es-CO");
+
     private Scanner scanner = new Scanner(System.in);
     private DomiService domiService = new DomiService();
 
@@ -17,32 +22,29 @@ public class Menu {
         do {
             System.out.println("\n══════════════════════════════════════════════");
             System.out.println("                 DOMI 🛵                   ");
-            System.out.println("══════════════════════════════════════════════");
-            System.out.println(" CLIENTES ");
-            System.out.println("1. Registrar cliente");
-            System.out.println("2. Listar cliente");
-            System.out.println("3. Editar cliente");
-            System.out.println("4. Eliminar cliente");
-            System.out.println("═══════════════════════════════════════════════");
-            System.out.println(" REPARTIDORES ");
-            System.out.println("5. Registrar repartidor");
-            System.out.println("6. Listar repartidores");
-            System.out.println("7. Cambiar disponibilidad");
-            System.out.println("═══════════════════════════════════════════════");
-            System.out.println(" PEDIDOS ");
-            System.out.println("8. Crear pedido (cotiza y asigna)");
-            System.out.println("9. Entregar pedido");
-            System.out.println("10. Cancelar pedido");
-            System.out.println("11. Listar pedidos");
-            System.out.println("═══════════════════════════════════════════════");
-            System.out.println(" OPERACIÓN ");
-            System.out.println("12. Activar / desactivar lluvia");
-            System.out.println("13. Cierre del día");
-            System.out.println("0. Salir ");
+            System.out.println("==========================================");
+            System.out.println(" CLIENTES");
+            System.out.println("   1. Registrar cliente");
+            System.out.println("   2. Listar clientes");
+            System.out.println("   3. Editar cliente");
+            System.out.println("   4. Eliminar cliente");
+            System.out.println(" REPARTIDORES");
+            System.out.println("   5. Registrar repartidor");
+            System.out.println("   6. Listar repartidores");
+            System.out.println("   7. Cambiar disponibilidad");
+            System.out.println(" PEDIDOS");
+            System.out.println("   8. Crear pedido (cotiza y asigna)");
+            System.out.println("   9. Entregar pedido");
+            System.out.println("  10. Cancelar pedido");
+            System.out.println("  11. Listar pedidos");
+            System.out.println(" OPERACIÓN");
+            System.out.println("  12. Activar / desactivar lluvia");
+            System.out.println("  13. Cierre del día");
+            System.out.println("   0. Salir");
             System.out.print("Elige una opción: ");
 
             try {
-                opcion = Integer.parseInt(scanner.nextLine());
+                opcion = Integer.parseInt(scanner.nextLine().trim());
                 switch (opcion) {
                     case 1:
                         opcionRegistrarCliente();
@@ -66,24 +68,23 @@ public class Menu {
                         opcionCambiarDisponibilidad();
                         break;
                     case 8:
-                        // Crear pedido (cotiza y asigna)
+                        opcionCrearPedido();
                         break;
                     case 9:
-                        // Entregar pedido
+                        opcionEntregarPedido();
                         break;
                     case 10:
-                        // Cancelar pedido
+                        opcionCancelarPedido();
                         break;
                     case 11:
-                        // Listar pedidos
+                        opcionListarPedidos();
                         break;
                     case 12:
-                        // Activar / desactivar lluvia
+                        System.out.println("\n(Pendiente: se implementa en el nivel Operación real)");
                         break;
                     case 13:
-                        // Cierre del día
+                        System.out.println("\n(Pendiente: se implementa en el nivel Operación real)");
                         break;
-
                     case 0:
                         System.out.println("\nSaliendo del sistema... ¡Hasta pronto!");
                         break;
@@ -103,6 +104,8 @@ public class Menu {
         scanner.close();
     }
 
+    // CLIENTES
+
     private void opcionRegistrarCliente() {
         System.out.println("\n--- REGISTRAR NUEVO CLIENTE ---");
         System.out.print("Ingrese la cédula: ");
@@ -114,25 +117,30 @@ public class Menu {
         System.out.print("Ingrese barrio: ");
         String barrio = scanner.nextLine();
         System.out.print("Ingrese dirección: ");
-        String dirrecion = scanner.nextLine();
-        domiService.registrarCliente(cedula, nombre, telefono, barrio, dirrecion);
-        System.out.println("Cliente registrado con Exito.");
+        String direccion = scanner.nextLine();
+
+        domiService.registrarCliente(cedula, nombre, telefono, barrio, direccion);
+        System.out.println("Cliente registrado con éxito.");
     }
 
     private void opcionListarClientes() {
+        System.out.println("\n--- LISTA DE CLIENTES ---");
         List<Cliente> clientes = domiService.listarClientes();
+
         if (clientes.isEmpty()) {
-        } else {
-            for (Cliente c : clientes) {
-                System.out.println(c.getCedula() + " | " + c.getNombre() + " | Tel: " + c.getTelefono() + " | "
-                        + c.getBarrio() + " | " + c.getDireccion());
-            }
+            System.out.println("No hay clientes registrados.");
+            return;
+        }
+
+        for (Cliente c : clientes) {
+            System.out.println(c.getCedula() + " | " + c.getNombre() + " | Tel: " + c.getTelefono()
+                    + " | " + c.getBarrio() + " | " + c.getDireccion());
         }
     }
 
     private void opcionEditarCliente() {
         System.out.println("\n--- EDITAR CLIENTE ---");
-        System.out.println("\n--- SOLO SE PUEDE CAMBIAR EL TELEFONO, BARRIO Y DIRECCIÓN ---");
+        System.out.println("--- SOLO SE PUEDE CAMBIAR EL TELÉFONO, BARRIO Y DIRECCIÓN ---");
         System.out.print("Ingrese la cédula: ");
         String cedula = scanner.nextLine();
         System.out.print("Ingrese nuevo teléfono: ");
@@ -140,8 +148,9 @@ public class Menu {
         System.out.print("Ingrese nuevo barrio: ");
         String barrio = scanner.nextLine();
         System.out.print("Ingrese nueva dirección: ");
-        String dirrecion = scanner.nextLine();
-        domiService.editarCliente(cedula, telefono, barrio, dirrecion);
+        String direccion = scanner.nextLine();
+
+        domiService.editarCliente(cedula, telefono, barrio, direccion);
         System.out.println("Cliente editado con éxito.");
     }
 
@@ -149,9 +158,12 @@ public class Menu {
         System.out.println("\n--- ELIMINAR CLIENTE ---");
         System.out.print("Ingrese la cédula: ");
         String cedula = scanner.nextLine();
+
         domiService.eliminarCliente(cedula);
         System.out.println("Cliente eliminado con éxito.");
     }
+
+    // ----------------------- REPARTIDORES -----------------------
 
     private void opcionRegistrarRepartidor() {
         System.out.println("\n--- REGISTRAR REPARTIDOR ---");
@@ -161,28 +173,130 @@ public class Menu {
         String nombre = scanner.nextLine();
         System.out.print("Ingrese tipo (Bici, Moto, Carro): ");
         String tipo = scanner.nextLine();
+
         domiService.registrarRepartidor(codigo, nombre, tipo);
-        System.out.println("Repartidor registrado con Exito.");
+        System.out.println("Repartidor registrado con éxito.");
     }
 
     private void opcionListarRepartidores() {
+        System.out.println("\n--- LISTA DE REPARTIDORES ---");
         List<Repartidor> repartidores = domiService.listarRepartidores();
-        System.out.println("\\n--- LISTA DE REPARTIDORES ---");
+
+        if (repartidores.isEmpty()) {
+            System.out.println("No hay repartidores registrados.");
+            return;
+        }
+
         for (Repartidor r : repartidores) {
-            String estado = r.isDisponible() ? "Disponible" : "No disponible";
-            System.out.println(
-                    r.getCodigo() + " | " + r.getNombre() + " (" + r.getClass().getSimpleName() + ") | " + estado);
+            System.out.println(r.getCodigo() + " | " + r.getNombre() + " | " + r.getTipo()
+                    + " | " + (r.isDisponible() ? "Disponible" : "No disponible"));
         }
     }
 
     private void opcionCambiarDisponibilidad() {
-        System.out.println("\\n--- CAMBIAR DISPONIBILIDAD ---");
+        System.out.println("\n--- CAMBIAR DISPONIBILIDAD ---");
         System.out.print("Ingrese el código del repartidor: ");
         String codigo = scanner.nextLine();
-        boolean nuevoEstado = domiService.cambiarDisponibilidad(codigo);
-        System.out.println("Disponibilidad actualizada a: " + (nuevoEstado ? "Disponible" : "No disponible"));
-        System.out.println("Se cambio la disponibilidad con Exito.");
-        ;
+
+        boolean disponible = domiService.cambiarDisponibilidad(codigo);
+        System.out.println("Ahora el repartidor está: " + (disponible ? "Disponible" : "No disponible"));
+    }
+
+    // -------------------------- PEDIDOS --------------------------
+
+    private void opcionCrearPedido() {
+        System.out.println("\n--- CREAR PEDIDO ---");
+        System.out.print("Ingrese la cédula del cliente: ");
+        String cedula = scanner.nextLine();
+
+        // Se valida que el cliente exista antes de pedir más datos
+        Cliente cliente = domiService.buscarCliente(cedula);
+
+        System.out.print("Ingrese la descripción del pedido: ");
+        String descripcion = scanner.nextLine();
+        boolean esGrande = leerSiNo("¿Es un pedido grande? (s/n): ");
+
+        double km = domiService.obtenerKm(cliente.getBarrio());
+        List<Cotizacion> cotizaciones = domiService.cotizarPedido(cedula, esGrande);
+
+        System.out.println("\nCotizando pedido para " + cliente.getNombre() + " · "
+                + cliente.getBarrio() + " (" + String.format(LOCALE, "%.1f", km) + " km)");
+
+        for (Cotizacion c : cotizaciones) {
+            Repartidor r = c.getRepartidor();
+            System.out.println("  " + r.getCodigo() + " " + r.getNombre() + " (" + r.getTipo() + ")  $"
+                    + formatearCosto(c.getCosto()) + "  " + formatearTiempo(c.getTiempo()) + " min");
+        }
+
+        // Si no hay cotizaciones, el servicio lanza la excepción y el menú la muestra
+        Pedido pedido = domiService.crearPedido(cedula, descripcion, esGrande);
+
+        System.out.println("✔ Pedido #" + pedido.getNumero() + " asignado a "
+                + pedido.getRepartidor().getNombre() + " (" + pedido.getRepartidor().getTipo()
+                + ") · " + pedido.getEstado());
+    }
+
+    private void opcionEntregarPedido() {
+        System.out.println("\n--- ENTREGAR PEDIDO ---");
+        System.out.print("Ingrese el número del pedido: ");
+        int numero = Integer.parseInt(scanner.nextLine().trim());
+
+        Pedido pedido = domiService.entregarPedido(numero);
+        System.out.println("Pedido #" + pedido.getNumero() + " entregado con éxito.");
+    }
+
+    private void opcionCancelarPedido() {
+        System.out.println("\n--- CANCELAR PEDIDO ---");
+        System.out.print("Ingrese el número del pedido: ");
+        int numero = Integer.parseInt(scanner.nextLine().trim());
+
+        Pedido pedido = domiService.cancelarPedido(numero);
+        System.out.println("Pedido #" + pedido.getNumero() + " cancelado con éxito.");
+    }
+
+    private void opcionListarPedidos() {
+        System.out.println("\n--- LISTA DE PEDIDOS ---");
+        List<Pedido> pedidos = domiService.listarPedidos();
+
+        if (pedidos.isEmpty()) {
+            System.out.println("No hay pedidos registrados.");
+            return;
+        }
+
+        for (Pedido p : pedidos) {
+            System.out.println("#" + p.getNumero()
+                    + " | " + p.getCliente().getNombre()
+                    + " | " + p.getRepartidor().getNombre() + " (" + p.getRepartidor().getTipo() + ")"
+                    + " | $" + formatearCosto(p.getCosto())
+                    + " | " + formatearTiempo(p.getTiempo()) + " min"
+                    + " | " + p.getEstado());
+        }
+    }
+
+    // ------------------------- AUXILIARES -------------------------
+
+    private boolean leerSiNo(String mensaje) {
+        System.out.print(mensaje);
+        String respuesta = scanner.nextLine().trim();
+
+        if (respuesta.equalsIgnoreCase("s") || respuesta.equalsIgnoreCase("si")
+                || respuesta.equalsIgnoreCase("sí")) {
+            return true;
+        }
+
+        if (respuesta.equalsIgnoreCase("n") || respuesta.equalsIgnoreCase("no")) {
+            return false;
+        }
+
+        throw new IllegalArgumentException("Responde 's' para sí o 'n' para no.");
+    }
+
+    private String formatearCosto(double costo) {
+        return String.format(LOCALE, "%,.0f", costo);
+    }
+
+    private String formatearTiempo(double minutos) {
+        return String.format(LOCALE, "%.1f", minutos);
     }
 
 }
