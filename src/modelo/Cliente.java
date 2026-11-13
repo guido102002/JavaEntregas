@@ -70,11 +70,13 @@ public class Cliente {
         String cleaned = telefono.replaceAll("[ -]", "");
 
         if (cleaned.length() < 7 || cleaned.length() > 10) {
-            throw new IllegalArgumentException("Oh-uh! El teléfono debe tener entre 7 y 10 dígitos. Por favor, verifique.");
+            throw new IllegalArgumentException(
+                    "Oh-uh! El teléfono debe tener entre 7 y 10 dígitos. Por favor, verifique.");
         }
 
         if (!cleaned.matches("\\d+")) {
-            throw new IllegalArgumentException("Oh-uh! El teléfono solo debe contener números, espacios o guiones. Por favor, verifique.");
+            throw new IllegalArgumentException(
+                    "Oh-uh! El teléfono solo debe contener números, espacios o guiones. Por favor, verifique.");
         }
 
         this.telefono = cleaned; // Se almacena la versión limpia sin espacios ni guiones

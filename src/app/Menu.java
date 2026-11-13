@@ -20,7 +20,7 @@ public class Menu {
         int opcion = -1;
 
         do {
-            System.out.println("\n==========================================");
+            System.out.println("\n══════════════════════════════════════════════");
             System.out.println("                 DOMI 🛵                   ");
             System.out.println("==========================================");
             System.out.println(" CLIENTES");

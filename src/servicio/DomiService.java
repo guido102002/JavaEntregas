@@ -87,7 +87,7 @@ public class DomiService {
 
     }
 
-    private void cargarCliente(String cedula, String nombre, String telefono, String barrio, String direccion){
+    private void cargarCliente(String cedula, String nombre, String telefono, String barrio, String direccion) {
         Cliente cliente = new Cliente(cedula, nombre, telefono, barrio, direccion);
         clientes.put(cliente.getCedula(), cliente);
     }
