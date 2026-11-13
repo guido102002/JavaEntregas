@@ -19,6 +19,7 @@ public class DomiService {
     private Map<String, Double> distanciasBarrios = new HashMap<>();
     private List<Repartidor> repartidores = new ArrayList<>();
     private List<Pedido> pedidos = new ArrayList<>();
+    private boolean modoLluvia = false;
 
     public static class Cotizacion {
         private final Repartidor repartidor;
@@ -47,8 +48,16 @@ public class DomiService {
     public DomiService() {
         cargarBarrios();
         cargarRepartidores();
-        cargarCliente("454535445", "Laura ", "354545", "barrio1", "Calle 19");
+        cargarCliente("454535445", "Laura ", "3545457", "barrio1", "Calle 19");
         cargarCliente("787878787", "Jenssen", "54454545", "barrio2", "Calle 20");
+    }
+
+    public void cambiarModoLluvia() {
+        modoLluvia = !modoLluvia;
+    }
+
+    public boolean isModoLluvia() {
+        return modoLluvia;
     }
 
     private void cargarBarrios() {
@@ -295,6 +304,23 @@ public class DomiService {
         pedido.getRepartidor().setDisponible(true);
 
         return pedido;
+    }
+
+    public double calcularCostoFinal(Repartidor repartidor, double kilometros) {
+
+        double costo = repartidor.calcularCosto(kilometros);
+
+        if (modoLluvia) {
+            costo *= 1.20;
+        }
+
+        return costo;
+    }
+
+    if (repartidor.isDisponible()
+            && repartidor.puedeLlevar(pedido, modoLluvia)) {
+
+        // El repartidor puede participar en la cotización.
     }
 
     public List<Pedido> listarPedidos() {
