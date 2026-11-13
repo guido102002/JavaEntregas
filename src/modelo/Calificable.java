@@ -4,6 +4,6 @@ public interface Calificable {
 
     void recibirCalificacion (int calificacion);
 
-    double obtenerPromedioCalificaciones();
+    double obtenerPromedio();
 
 }
