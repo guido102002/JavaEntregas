@@ -5,6 +5,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Scanner;
 
+import modelo.Bici;
+import modelo.Dron;
 import modelo.Cliente;
 import modelo.Pedido;
 import modelo.Repartidor;
@@ -33,10 +35,10 @@ public class Menu {
         int opcion = -1;
 
         do {
-            printModoLluvia();
             System.out.println("\n══════════════════════════════════════════════");
             System.out.println("                 DOMI 🛵                   ");
             System.out.println("══════════════════════════════════════════════");
+            printModoLluvia();
             System.out.println(" CLIENTES ");
             System.out.println("1. Registrar cliente");
             System.out.println("2. Listar cliente");
@@ -205,9 +207,20 @@ public class Menu {
         }
 
         for (Repartidor r : repartidores) {
-            System.out.println(r.getCodigo() + " | " + r.getNombre() + " | " + r.getTipo()
-                    + " | " + (r.isDisponible() ? "Disponible" : "No disponible")
-                    + " | Promedio: " + String.format(LOCALE, "%.1f", r.obtenerPromedio()));
+
+            String estado;
+
+            if (!r.isDisponible()) {
+                estado = "No disponible";
+            } else if (domiService.isModoLluvia()
+                    && (r instanceof Bici || r instanceof Dron)) {
+                estado = "No disponible por lluvia";
+            } else {
+                estado = "Disponible";
+            }
+
+            System.out.println(r.getCodigo() + " | " + r.getNombre() + " | "
+                    + r.getTipo() + " | " + estado);
         }
     }
 
