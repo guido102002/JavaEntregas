@@ -190,7 +190,7 @@ public class Menu {
         String codigo = scanner.nextLine();
         System.out.print("Ingrese nombre: ");
         String nombre = scanner.nextLine();
-        System.out.print("Ingrese tipo (Bici, Moto, Carro): ");
+        System.out.print("Ingrese tipo (Bici, Moto, Carro, Dron): ");
         String tipo = scanner.nextLine();
 
         domiService.registrarRepartidor(codigo, nombre, tipo);
