@@ -155,6 +155,54 @@ public class DomiService {
 
         throw new IllegalArgumentException("No existe un repartidor con el código " + codigo);
     }
+
+    //Metodo crearPedido
+    public Pedido crearPedido(String cedula, String descripcion, boolean esGrande) {
+        Cliente cliente = clientes.get(cedula.trim());
+
+        if (cliente == null) {
+            throw new IllegalArgumentException("No existe un cliente con la cédula " + cedula);
+        }
+
+        Double km = distanciasBarrios.get(cliente.getBarrio());
+
+        if (km == null) {
+            throw new IllegalArgumentException("No hay distancia registrada para el barrio " + cliente.getBarrio());
+        }
+
+        Repartidor mejor = null;
+
+        for (Repartidor r : repartidores) {
+            if (!r.isDisponible() || !r.puedeLlevar(km, esGrande)) {
+                continue;
+            }
+
+            if (mejor == null) {
+                mejor = r;
+                continue;
+            }
+
+            double costoR = r.calcularCosto(km);
+            double costoMejor = mejor.calcularCosto(km);
+
+            if (costoR < costoMejor
+                    || (costoR == costoMejor && r.calcularTiempo(km) < mejor.calcularTiempo(km))) {
+                mejor = r;
+            }
+        }
+
+        if (mejor == null) {
+            throw new IllegalArgumentException("No hay repartidores disponibles que puedan llevar este pedido");
+        }
+
+        Pedido pedido = new Pedido(cliente, descripcion, esGrande, km, mejor,
+                mejor.calcularCosto(km), mejor.calcularTiempo(km));
+
+        mejor.setDisponible(false);
+        pedidos.add(pedido);
+
+        return pedido;
+    }
 }
 
 
