@@ -16,10 +16,23 @@ public class Menu {
     private Scanner scanner = new Scanner(System.in);
     private DomiService domiService = new DomiService();
 
+    private void opcionCambiarModoLluvia() {
+        domiService.cambiarModoLluvia();
+    }
+
+    private void printModoLluvia() {
+        if (domiService.isModoLluvia()) {
+            System.out.println("\n🌧️ MODO LLUVIA ACTIVADO");
+        } else {
+            System.out.println("\n☀️ MODO LLUVIA DESACTIVADO");
+        }
+    }
+
     public void iniciar() {
         int opcion = -1;
 
         do {
+            printModoLluvia();
             System.out.println("\n══════════════════════════════════════════════");
             System.out.println("                 DOMI 🛵                   ");
             System.out.println("==========================================");
@@ -80,7 +93,7 @@ public class Menu {
                         opcionListarPedidos();
                         break;
                     case 12:
-                        System.out.println("\n(Pendiente: se implementa en el nivel Operación real)");
+                        opcionCambiarModoLluvia();
                         break;
                     case 13:
                         System.out.println("\n(Pendiente: se implementa en el nivel Operación real)");
