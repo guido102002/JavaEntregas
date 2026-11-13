@@ -3,6 +3,9 @@ package app;
 import java.util.Scanner;
 
 import servicio.DomiService;
+import java.util.List;
+import modelo.Cliente;
+import modelo.Repartidor;
 
 public class Menu {
     private Scanner scanner = new Scanner(System.in);
@@ -12,24 +15,27 @@ public class Menu {
         int opcion = -1;
 
         do {
-            System.out.println("\n==========================================");
+            System.out.println("\n══════════════════════════════════════════════");
             System.out.println("                 DOMI 🛵                   ");
-            System.out.println("============================================");
-            System.out.print(" CLIENTES ");
+            System.out.println("══════════════════════════════════════════════");
+            System.out.println(" CLIENTES ");
             System.out.println("1. Registrar cliente");
             System.out.println("2. Listar cliente");
             System.out.println("3. Editar cliente");
             System.out.println("4. Eliminar cliente");
-            System.out.print(" REPARTIDORES ");
+            System.out.println("═══════════════════════════════════════════════");
+            System.out.println(" REPARTIDORES ");
             System.out.println("5. Registrar repartidor");
             System.out.println("6. Listar repartidores");
             System.out.println("7. Cambiar disponibilidad");
-            System.out.print(" PEDIDOS ");
+            System.out.println("═══════════════════════════════════════════════");
+            System.out.println(" PEDIDOS ");
             System.out.println("8. Crear pedido (cotiza y asigna)");
             System.out.println("9. Entregar pedido");
             System.out.println("10. Cancelar pedido");
             System.out.println("11. Listar pedidos");
-            System.out.print(" OPERACIÓN ");
+            System.out.println("═══════════════════════════════════════════════");
+            System.out.println(" OPERACIÓN ");
             System.out.println("12. Activar / desactivar lluvia");
             System.out.println("13. Cierre del día");
             System.out.println("0. Salir ");
@@ -109,11 +115,19 @@ public class Menu {
         String barrio = scanner.nextLine();
         System.out.print("Ingrese dirección: ");
         String dirrecion = scanner.nextLine();
+        domiService.registrarCliente(cedula, nombre, telefono, barrio, dirrecion);
         System.out.println("Cliente registrado con Exito.");
     }
 
     private void opcionListarClientes() {
-        System.out.println("\n--- LISTA DE CLIENTES ---");
+        List<Cliente> clientes = domiService.listarClientes();
+        if (clientes.isEmpty()) {
+        } else {
+            for (Cliente c : clientes) {
+                System.out.println(c.getCedula() + " | " + c.getNombre() + " | Tel: " + c.getTelefono() + " | "
+                        + c.getBarrio() + " | " + c.getDireccion());
+            }
+        }
     }
 
     private void opcionEditarCliente() {
@@ -127,6 +141,7 @@ public class Menu {
         String barrio = scanner.nextLine();
         System.out.print("Ingrese nueva dirección: ");
         String dirrecion = scanner.nextLine();
+        domiService.editarCliente(cedula, telefono, barrio, dirrecion);
         System.out.println("Cliente editado con éxito.");
     }
 
@@ -134,6 +149,7 @@ public class Menu {
         System.out.println("\n--- ELIMINAR CLIENTE ---");
         System.out.print("Ingrese la cédula: ");
         String cedula = scanner.nextLine();
+        domiService.eliminarCliente(cedula);
         System.out.println("Cliente eliminado con éxito.");
     }
 
@@ -145,19 +161,26 @@ public class Menu {
         String nombre = scanner.nextLine();
         System.out.print("Ingrese tipo (Bici, Moto, Carro): ");
         String tipo = scanner.nextLine();
+        domiService.registrarRepartidor(codigo, nombre, tipo);
         System.out.println("Repartidor registrado con Exito.");
-        ;
-
     }
 
     private void opcionListarRepartidores() {
+        List<Repartidor> repartidores = domiService.listarRepartidores();
         System.out.println("\\n--- LISTA DE REPARTIDORES ---");
+        for (Repartidor r : repartidores) {
+            String estado = r.isDisponible() ? "Disponible" : "No disponible";
+            System.out.println(
+                    r.getCodigo() + " | " + r.getNombre() + " (" + r.getClass().getSimpleName() + ") | " + estado);
+        }
     }
 
     private void opcionCambiarDisponibilidad() {
         System.out.println("\\n--- CAMBIAR DISPONIBILIDAD ---");
         System.out.print("Ingrese el código del repartidor: ");
         String codigo = scanner.nextLine();
+        boolean nuevoEstado = domiService.cambiarDisponibilidad(codigo);
+        System.out.println("Disponibilidad actualizada a: " + (nuevoEstado ? "Disponible" : "No disponible"));
         System.out.println("Se cambio la disponibilidad con Exito.");
         ;
     }
