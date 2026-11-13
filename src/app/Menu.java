@@ -16,31 +16,47 @@ public class Menu {
     private Scanner scanner = new Scanner(System.in);
     private DomiService domiService = new DomiService();
 
+    private void opcionCambiarModoLluvia() {
+        domiService.cambiarModoLluvia();
+    }
+
+    private void printModoLluvia() {
+        if (domiService.isModoLluvia()) {
+            System.out.println("\n🌧️ MODO LLUVIA ACTIVADO");
+        } else {
+            System.out.println("\n☀️ MODO LLUVIA DESACTIVADO");
+        }
+    }
+
     public void iniciar() {
         int opcion = -1;
 
         do {
+            printModoLluvia();
             System.out.println("\n══════════════════════════════════════════════");
             System.out.println("                 DOMI 🛵                   ");
-            System.out.println("==========================================");
-            System.out.println(" CLIENTES");
-            System.out.println("   1. Registrar cliente");
-            System.out.println("   2. Listar clientes");
-            System.out.println("   3. Editar cliente");
-            System.out.println("   4. Eliminar cliente");
-            System.out.println(" REPARTIDORES");
-            System.out.println("   5. Registrar repartidor");
-            System.out.println("   6. Listar repartidores");
-            System.out.println("   7. Cambiar disponibilidad");
-            System.out.println(" PEDIDOS");
-            System.out.println("   8. Crear pedido (cotiza y asigna)");
-            System.out.println("   9. Entregar pedido");
-            System.out.println("  10. Cancelar pedido");
-            System.out.println("  11. Listar pedidos");
-            System.out.println(" OPERACIÓN");
-            System.out.println("  12. Activar / desactivar lluvia");
-            System.out.println("  13. Cierre del día");
-            System.out.println("   0. Salir");
+            System.out.println("══════════════════════════════════════════════");
+            System.out.println(" CLIENTES ");
+            System.out.println("1. Registrar cliente");
+            System.out.println("2. Listar cliente");
+            System.out.println("3. Editar cliente");
+            System.out.println("4. Eliminar cliente");
+            System.out.println("═══════════════════════════════════════════════");
+            System.out.println(" REPARTIDORES ");
+            System.out.println("5. Registrar repartidor");
+            System.out.println("6. Listar repartidores");
+            System.out.println("7. Cambiar disponibilidad");
+            System.out.println("═══════════════════════════════════════════════");
+            System.out.println(" PEDIDOS ");
+            System.out.println("8. Crear pedido (cotiza y asigna)");
+            System.out.println("9. Entregar pedido");
+            System.out.println("10. Cancelar pedido");
+            System.out.println("11. Listar pedidos");
+            System.out.println("═══════════════════════════════════════════════");
+            System.out.println(" OPERACIÓN ");
+            System.out.println("12. Activar / desactivar lluvia");
+            System.out.println("13. Cierre del día");
+            System.out.println("0. Salir ");
             System.out.print("Elige una opción: ");
 
             try {
@@ -80,7 +96,7 @@ public class Menu {
                         opcionListarPedidos();
                         break;
                     case 12:
-                        System.out.println("\n(Pendiente: se implementa en el nivel Operación real)");
+                        opcionCambiarModoLluvia();
                         break;
                     case 13:
                         System.out.println("\n(Pendiente: se implementa en el nivel Operación real)");

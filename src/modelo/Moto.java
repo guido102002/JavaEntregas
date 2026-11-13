@@ -24,7 +24,7 @@ public class Moto extends Repartidor {
     }
 
     @Override
-    public boolean puedeLlevar(double km, boolean esGrande) {
+    public boolean puedeLlevar(double km, boolean esGrande, boolean modoLluvia) {
         return !esGrande && km <= DISTANCIA_MAXIMA_KM;
     }
 
