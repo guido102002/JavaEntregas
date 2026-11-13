@@ -13,8 +13,8 @@ public class Menu {
 
         do {
             System.out.println("\n==========================================");
-            System.out.println("      SISTEMA DE GESTIÓN DE DOMICILIOS    ");
-            System.out.println("==========================================");
+            System.out.println("                 DOMI 🛵                   ");
+            System.out.println("============================================");
             System.out.print(" CLIENTES ");
             System.out.println("1. Registrar cliente");
             System.out.println("2. Listar cliente");
