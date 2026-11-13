@@ -379,5 +379,4 @@ public class Menu {
     private String formatearTiempo(double minutos) {
         return String.format(LOCALE, "%.1f", minutos);
     }
-
 }
