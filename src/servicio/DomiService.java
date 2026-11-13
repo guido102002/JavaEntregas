@@ -269,7 +269,7 @@ public class DomiService {
         throw new IllegalArgumentException("No existe el pedido #" + numero);
     }
 
-    public Pedido entregarPedido(int numero) {
+    public Pedido entregarPedido(int numero, int calificacion) {
         Pedido pedido = buscarPedido(numero);
 
         if (!pedido.getEstado().equals(Pedido.EN_CAMINO)) {
@@ -277,6 +277,7 @@ public class DomiService {
                     "No se puede entregar el pedido #" + numero + ": está " + pedido.getEstado() + ".");
         }
 
+        pedido.getRepartidor().recibirCalificacion(calificacion);
         pedido.setEstado(Pedido.ENTREGADO);
         pedido.getRepartidor().setDisponible(true);
 

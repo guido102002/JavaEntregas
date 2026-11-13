@@ -189,7 +189,8 @@ public class Menu {
 
         for (Repartidor r : repartidores) {
             System.out.println(r.getCodigo() + " | " + r.getNombre() + " | " + r.getTipo()
-                    + " | " + (r.isDisponible() ? "Disponible" : "No disponible"));
+                    + " | " + (r.isDisponible() ? "Disponible" : "No disponible")
+                    + " | Promedio: " + String.format(LOCALE, "%.1f", r.obtenerPromedio()));
         }
     }
 
@@ -240,8 +241,10 @@ public class Menu {
         System.out.println("\n--- ENTREGAR PEDIDO ---");
         System.out.print("Ingrese el número del pedido: ");
         int numero = Integer.parseInt(scanner.nextLine().trim());
+        System.out.print("Califique la entrega (1 a 5): ");
+        int calificacion = Integer.parseInt(scanner.nextLine().trim());
 
-        Pedido pedido = domiService.entregarPedido(numero);
+        Pedido pedido = domiService.entregarPedido(numero, calificacion);
         System.out.println("Pedido #" + pedido.getNumero() + " entregado con éxito.");
     }
 
