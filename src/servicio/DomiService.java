@@ -300,4 +300,61 @@ public class DomiService {
     public List<Pedido> listarPedidos() {
         return new ArrayList<>(pedidos);
     }
+
+    // Metodos reportes
+
+    public Map<String, Integer> contarPedidosPorEstado() {
+        Map<String, Integer> conteo = new HashMap<>();
+        conteo.put(Pedido.EN_CAMINO, 0);
+        conteo.put(Pedido.ENTREGADO, 0);
+        conteo.put(Pedido.CANCELADO, 0);
+
+        for (Pedido p : pedidos) {
+            String estado = p.getEstado();
+            conteo.put(estado, conteo.get(estado) + 1);
+        }
+
+        return conteo;
+    }
+
+    public double calcularIngresosTotales() {
+        double total = 0;
+
+        for (Pedido p : pedidos) {
+            if (p.getEstado().equals(Pedido.ENTREGADO)) {
+                total += p.getCosto();
+            }
+        }
+
+        return total;
+    }
+
+    public Map<String, Double> calcularIngresosPorTipo() {
+        Map<String, Double> ingresosPorTipo = new HashMap<>();
+
+        for (Pedido p : pedidos) {
+            if (p.getEstado().equals(Pedido.ENTREGADO)) {
+                String tipo = p.getRepartidor().getTipo();
+                double acumuladoActual = ingresosPorTipo.getOrDefault(tipo, 0.0);
+                ingresosPorTipo.put(tipo, acumuladoActual + p.getCosto());
+            }
+        }
+
+        return ingresosPorTipo;
+    }
+
+    public Repartidor obtenerRepartidorEstrella() {
+        Repartidor estrella = null;
+
+        for (Repartidor r : repartidores) {
+            // Solo participa si tiene al menos una calificación
+            if (!r.getCalificaciones().isEmpty()) {
+                if (estrella == null || r.obtenerPromedio() > estrella.obtenerPromedio()) {
+                    estrella = r;
+                }
+            }
+        }
+
+        return estrella;
+    }
 }
