@@ -34,7 +34,7 @@ public class Cliente {
 
     public void setCedula(String cedula) {
 
-        if (StringUtils.isBlank(cedula)) {
+        if (cedula == null || cedula.trim().isEmpty()) {
             throw new IllegalArgumentException("Oh-uh! La cédula no puede estar vacía. Por favor, verifique.");
         }
 
@@ -43,8 +43,8 @@ public class Cliente {
         // Expresion regular para que solo se digiten numeros 0-9
         String regex = "\\d+";
 
-        if (!cedula.matches()) {
-            throw new IllegalArgumentException("La cédula solo debe contener números.");
+        if (!cedula.matches(regex)) {
+            throw new IllegalArgumentException("Oh-uh! La cédula solo debe contener números.");
         }
 
         this.cedula = cedula;
@@ -53,7 +53,7 @@ public class Cliente {
 
     public void setNombre(String nombre) {
 
-        if (StringUtils.isBlank(nombre)) {
+        if (nombre == null || nombre.trim().isEmpty()) {
             throw new IllegalArgumentException("Oh-uh! El nombre no puede estar vacío. Por favor, verifique.");
         }
 
@@ -63,28 +63,28 @@ public class Cliente {
 
     public void setTelefono(String telefono) {
 
-        if (StringUtils.isBlank(telefono)) {
+        if (telefono == null || telefono.trim().isEmpty()) {
             throw new IllegalArgumentException("Oh-uh! El teléfono no puede estar vacío. Por favor, verifique.");
         }
 
-        // Expresion regular para reemplazar guioncitos espacios y valdiar que solo hayan digitos
-        String regex = telefono.replaceAll("[ -]", "");
+        // Limpiar entrada para validar longitud y contenido numérico
+        String cleaned = telefono.replaceAll("[ -]", "");
 
-        if (regex.length() < 7 || regex.length() > 10) {
+        if (cleaned.length() < 7 || cleaned.length() > 10) {
             throw new IllegalArgumentException("Oh-uh! El teléfono debe tener entre 7 y 10 dígitos. Por favor, verifique.");
         }
 
-        if (!regex.matches("\\d+")) {
+        if (!cleaned.matches("\\d+")) {
             throw new IllegalArgumentException("Oh-uh! El teléfono solo debe contener números, espacios o guiones. Por favor, verifique.");
         }
 
-        this.telefono = telefono;
+        this.telefono = cleaned; // Se almacena la versión limpia sin espacios ni guiones
 
     }
 
     public void setBarrio(String barrio) {
 
-        if (StringUtils.isBlank(barrio)) {
+        if (barrio == null || barrio.trim().isEmpty()) {
             throw new IllegalArgumentException("Oh-uh! El barrio no puede estar vacío. Por favor, verifique.");
         }
 
@@ -93,7 +93,7 @@ public class Cliente {
 
     public void setDireccion(String direccion) {
 
-        if (StringUtils.isBlank(direccion)) {
+        if (direccion == null || direccion.trim().isEmpty()) {
             throw new IllegalArgumentException("Oh-uh! La direccion no puede estar vacía. Por favor, verifique.");
         }
 
@@ -102,13 +102,13 @@ public class Cliente {
 
     // CONSTRUCTOR
 
-    public Cliente(String direccion, String barrio, String telefono, String nombre, String cedula) {
+    public Cliente(String cedula, String nombre, String telefono, String barrio, String direccion) {
 
-        this.direccion = direccion;
-        this.barrio = barrio;
-        this.telefono = telefono;
-        this.nombre = nombre;
-        this.cedula = cedula;
+        this.setCedula(cedula);
+        this.setNombre(nombre);
+        this.setTelefono(telefono);
+        this.setBarrio(barrio);
+        this.setDireccion(direccion);
 
     }
 }
