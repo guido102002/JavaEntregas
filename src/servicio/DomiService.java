@@ -47,42 +47,42 @@ public class DomiService {
     public DomiService() {
         cargarBarrios();
         cargarRepartidores();
-        cargarCliente("454535445", "Laura ", "354545", "barrio1", "Calle 19");
-        cargarCliente("787878787", "Jenssen", "54454545", "barrio2", "Calle 20");
+        cargarCliente("1020304050", "Laura Gómez", "3001234567", "Teusaquillo", "Calle 19");
+        cargarCliente("1030405060", "Mateo Rincón", "3109876543", "Usaquén", "Calle 20");
     }
 
     private void cargarBarrios() {
-        barriosCobertura.add("barrio1");
-        distanciasBarrios.put("barrio1", 1.5);
+        barriosCobertura.add("Chapinero");
+        distanciasBarrios.put("Chapinero", 1.5);
 
-        barriosCobertura.add("barrio2");
-        distanciasBarrios.put("barrio2", 3.0);
+        barriosCobertura.add("Teusaquillo");
+        distanciasBarrios.put("Teusaquillo", 3.0);
 
-        barriosCobertura.add("barrio3");
-        distanciasBarrios.put("barrio3", 4.5);
+        barriosCobertura.add("La Candelaria");
+        distanciasBarrios.put("La Candelaria", 4.5);
 
-        barriosCobertura.add("barrio4");
-        distanciasBarrios.put("barrio4", 6.0);
+        barriosCobertura.add("Usaquén");
+        distanciasBarrios.put("Usaquén", 6.0);
 
-        barriosCobertura.add("barrio5");
-        distanciasBarrios.put("barrio5", 8.0);
+        barriosCobertura.add("Cedritos");
+        distanciasBarrios.put("Cedritos", 8.0);
 
-        barriosCobertura.add("barrio6");
-        distanciasBarrios.put("barrio6", 11.0);
+        barriosCobertura.add("Fontibón");
+        distanciasBarrios.put("Fontibón", 11.0);
 
-        barriosCobertura.add("barrio7");
-        distanciasBarrios.put("barrio7", 12.0);
+        barriosCobertura.add("Suba");
+        distanciasBarrios.put("Suba", 12.0);
 
-        barriosCobertura.add("barrio8");
-        distanciasBarrios.put("barrio8", 14.0);
+        barriosCobertura.add("Kennedy");
+        distanciasBarrios.put("Kennedy", 14.0);
 
-        barriosCobertura.add("barrio9");
-        distanciasBarrios.put("barrio9", 18.0);
+        barriosCobertura.add("Bosa");
+        distanciasBarrios.put("Bosa", 18.0);
     }
 
-    private void cargarRepartidores(){
+    private void cargarRepartidores() {
         repartidores.add(new Bici("01", "Laura Garcia", true));
-        repartidores.add(new Moto("02", "\n" +"Michalle Muñoz ", true));
+        repartidores.add(new Moto("02", "\n" + "Michalle Muñoz ", true));
         repartidores.add(new Carro("03", "Jenssen Quintero", true));
 
     }
@@ -92,7 +92,7 @@ public class DomiService {
         clientes.put(cliente.getCedula(), cliente);
     }
 
-    //Metodos - CLIENTES
+    // Metodos - CLIENTES
     public void registrarCliente(String cedula, String nombre, String telefono, String barrio, String direccion) {
         Cliente cliente = new Cliente(cedula, nombre, telefono, barrio, direccion);
 
@@ -154,7 +154,7 @@ public class DomiService {
             throw new IllegalArgumentException("No existe un cliente con la cédula " + cedula);
         }
 
-        // no se elimina  cliente con pedidos en curso
+        // no se elimina cliente con pedidos en curso
         for (Pedido p : pedidos) {
             if (p.getCliente().getCedula().equals(cliente.getCedula())
                     && p.getEstado().equals(Pedido.EN_CAMINO)) {
@@ -166,7 +166,7 @@ public class DomiService {
         clientes.remove(cliente.getCedula());
     }
 
-    //Metodos repartidores
+    // Metodos repartidores
     public void registrarRepartidor(String codigo, String nombre, String tipo) {
         String codigoLimpio = codigo.trim();
 
@@ -210,7 +210,7 @@ public class DomiService {
         throw new IllegalArgumentException("No existe un repartidor con el código " + codigo);
     }
 
-    //Metodos pedidos
+    // Metodos pedidos
 
     public List<Cotizacion> cotizarPedido(String cedula, boolean esGrande) {
         Cliente cliente = buscarCliente(cedula);
@@ -238,7 +238,7 @@ public class DomiService {
                     "Ningún repartidor disponible puede llevar este pedido. El pedido no fue creado.");
         }
 
-        //menor costo si empatan, el más rápido
+        // menor costo si empatan, el más rápido
         Cotizacion mejor = cotizaciones.get(0);
 
         for (int i = 1; i < cotizaciones.size(); i++) {
