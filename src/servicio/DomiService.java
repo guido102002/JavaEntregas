@@ -92,7 +92,7 @@ public class DomiService {
 
     private void cargarRepartidores() {
         repartidores.add(new Bici("01", "Laura Garcia", true));
-        repartidores.add(new Moto("02", "\n" + "Michalle Muñoz ", true));
+        repartidores.add(new Moto("02", "Michalle Muñoz ", true));
         repartidores.add(new Carro("03", "Jenssen Quintero", true));
 
     }
