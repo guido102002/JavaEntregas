@@ -31,7 +31,7 @@ Aplicación de consola en Java puro desarrollada para el **Hackathon Java · Gen
  
 ## 🎬 Video Demo (3 minutos)
  
-🔗 **Enlace al video:** [Pegar aquí el link de YouTube oculto o Google Drive]
+🔗 **Enlace al video https://drive.google.com/drive/folders/1Wc8OiSIGWWMK1gYrMhsH4xZNw_brW5Ci?usp=sharing
  
 ---
  
