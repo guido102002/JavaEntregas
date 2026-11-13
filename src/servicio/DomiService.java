@@ -102,6 +102,59 @@ public class DomiService {
         cliente.setBarrio(nuevoBarrio);
         cliente.setDireccion(nuevaDireccion);
     }
+
+    public void eliminarCliente(String cedula) {
+        Cliente cliente = clientes.get(cedula.trim());
+
+        if (cliente == null) {
+            throw new IllegalArgumentException("No existe un cliente con la cédula " + cedula);
+        }
+
+        clientes.remove(cliente.getCedula());
+    }
+
+    public void registrarRepartidor(String codigo, String nombre, String tipo) {
+        String codigoLimpio = codigo.trim();
+
+        for (Repartidor r : repartidores) {
+            if (r.getCodigo().equalsIgnoreCase(codigoLimpio)) {
+                throw new IllegalArgumentException("Ya existe un repartidor con el código " + codigoLimpio);
+            }
+        }
+
+        Repartidor nuevo;
+
+        switch (tipo.trim().toLowerCase()) {
+            case "bici":
+                nuevo = new Bici(codigoLimpio, nombre, true);
+                break;
+            case "moto":
+                nuevo = new Moto(codigoLimpio, nombre, true);
+                break;
+            case "carro":
+                nuevo = new Carro(codigoLimpio, nombre, true);
+                break;
+            default:
+                throw new IllegalArgumentException("Tipo de repartidor no válido: " + tipo);
+        }
+
+        repartidores.add(nuevo);
+    }
+
+    public List<Repartidor> listarRepartidores() {
+        return new ArrayList<>(repartidores);
+    }
+
+    public boolean cambiarDisponibilidad(String codigo) {
+        for (Repartidor r : repartidores) {
+            if (r.getCodigo().equalsIgnoreCase(codigo.trim())) {
+                r.setDisponible(!r.isDisponible());
+                return r.isDisponible();
+            }
+        }
+
+        throw new IllegalArgumentException("No existe un repartidor con el código " + codigo);
+    }
 }
 
 
